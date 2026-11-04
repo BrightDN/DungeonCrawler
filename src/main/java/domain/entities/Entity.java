@@ -1,6 +1,6 @@
-package domain;
+package domain.entities;
 
-public class Player {
+abstract class Entity {
     static final int DEFAULT_HEALTH = 100;
     static final int DEFAULT_ARMOR = 10;
     static final int DEFAULT_STRENGTH = 10;
@@ -10,17 +10,49 @@ public class Player {
     private int armor;
     private int strength;
 
-    public Player() {
+    public Entity() {
         this(DEFAULT_HEALTH);
     }
 
-    public Player(int health) {
+    public Entity(int health) {
         this(health, DEFAULT_ARMOR);
     }
 
-    public Player(int health, int armor) {
+    public Entity(int health, int armor) {
+        this(health, armor, DEFAULT_STRENGTH);
+    }
+
+    public Entity(int health, int armor, int strength) {
         setHealth(health);
         setArmor(armor);
+        setStrength(strength);
+    }
+
+    public void resetHealth() {
+        this.currentHealth = totalHealth;
+    }
+
+    public void increaseTotalHealth(int amount) {
+        if (amount <= 0) return;
+        totalHealth += amount;
+    }
+
+    public void decreaseTotalHealth(int amount) {
+        if (amount <= 0) return;
+        totalHealth -= amount;
+    }
+
+    public void heal(int amount) {
+        if (currentHealth <= 0) return;
+    }
+
+    public void dealDamageTo(Entity target) {
+        int damage = calculateDamageDealt();
+        target.takeDamage(damage);
+    }
+
+    public int calculateDamageDealt() {
+        return this.strength;
     }
 
     public void takeDamage(int amount) {
@@ -54,6 +86,13 @@ public class Player {
         this.armor = armor;
     }
 
+    private void setStrength(int strength) {
+        if (strength <= 0) {
+            this.strength = DEFAULT_STRENGTH;
+            return;
+        }
+        this.strength = strength;
+    }
 
     public double getTotalHealth() {
         return totalHealth;
@@ -71,3 +110,5 @@ public class Player {
         return strength;
     }
 }
+
+
