@@ -10,18 +10,6 @@ abstract class Entity {
     private int armor;
     private int strength;
 
-    public Entity() {
-        this(DEFAULT_HEALTH);
-    }
-
-    public Entity(int health) {
-        this(health, DEFAULT_ARMOR);
-    }
-
-    public Entity(int health, int armor) {
-        this(health, armor, DEFAULT_STRENGTH);
-    }
-
     public Entity(int health, int armor, int strength) {
         setHealth(health);
         setArmor(armor);
@@ -43,7 +31,8 @@ abstract class Entity {
     }
 
     public void heal(int amount) {
-        if (currentHealth <= 0) return;
+        if (getCurrentHealth() <= 0) return;
+        currentHealth = (int) Math.min(currentHealth += amount, getTotalHealth());
     }
 
     public void dealDamageTo(Entity target) {

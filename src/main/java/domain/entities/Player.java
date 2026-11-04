@@ -1,34 +1,19 @@
 package domain.entities;
 
 public class Player extends Entity {
-    public final double DEFAULT_EXP_MULTIPLIER = 1;
     public final double DEFAULT_EXP_LEVEL_THRESHOLD = 100;
     public final double DEFAULT_EXP_LEVEL_THRESHOLD_INCREASE = 1.5;
 
     private double exp = 0;
-    private double expMultiplier = DEFAULT_EXP_MULTIPLIER;
+    private double expMultiplier;
     private int level = 1;
     private double expLevelThreshold = DEFAULT_EXP_LEVEL_THRESHOLD;
     private double expLevelThresholdIncrease = DEFAULT_EXP_LEVEL_THRESHOLD_INCREASE;
 
 
-    public Player() {
-        super();
-    }
-
-    public Player(int health, float expMultiplier) {
-        super(health);
-        setExpMultiplier(expMultiplier);
-    }
-
-    public Player(int health, int armor, float expMultiplier) {
-        super(health, armor);
-        setExpMultiplier(expMultiplier);
-    }
-
-    public Player(int health, int armor, int strength, float expMultiplier) {
-        super(health, armor, strength);
-        setExpMultiplier(expMultiplier);
+    public Player(Difficulty difficulty) {
+        super(difficulty.health, difficulty.armor, difficulty.damage);
+        setExpMultiplier(difficulty.expMultiplier);
     }
 
     public void gainEXP(float baseAmount) {
@@ -57,8 +42,4 @@ public class Player extends Entity {
     public int getLevel() {
         return level;
     }
-}
-
-void main() {
-    Player p = new Player();
 }
