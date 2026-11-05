@@ -1,10 +1,10 @@
 package domain.dungeons;
 
-import java.util.Random;
+import java.security.SecureRandom;
 
 public class Dungeon {
     private static final String DEFAULT_DUNGEON_NAME = "Unknown dungeon";
-    private static final Random seed = new Random();
+    private static final SecureRandom seed = new SecureRandom();
 
     private long currentSeed;
 
@@ -38,5 +38,9 @@ public class Dungeon {
 
     public long getSeed() {
         return currentSeed;
+    }
+
+    public String getDungeonName() {
+        return dungeonName;
     }
 }
