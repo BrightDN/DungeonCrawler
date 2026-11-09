@@ -5,7 +5,7 @@ abstract class Entity {
     static final int DEFAULT_ARMOR = 10;
     static final int DEFAULT_STRENGTH = 10;
 
-    private int totalHealth;
+    private int maxHealth;
     private int currentHealth;
     private int armor;
     private int strength;
@@ -13,21 +13,22 @@ abstract class Entity {
     public Entity(int health, int armor, int strength) {
         setHealth(health);
         setArmor(armor);
+        
         setStrength(strength);
     }
 
     public void resetHealth() {
-        this.currentHealth = totalHealth;
+        this.currentHealth = maxHealth;
     }
 
     public void increaseTotalHealth(int amount) {
         if (amount <= 0) return;
-        totalHealth += amount;
+        maxHealth += amount;
     }
 
     public void decreaseTotalHealth(int amount) {
         if (amount <= 0) return;
-        totalHealth -= amount;
+        maxHealth -= amount;
     }
 
     public void heal(int amount) {
@@ -63,11 +64,11 @@ abstract class Entity {
 
     private void setHealth(int health) {
         if (health <= 0) {
-            this.totalHealth = DEFAULT_HEALTH;
+            this.maxHealth = DEFAULT_HEALTH;
             this.currentHealth = DEFAULT_HEALTH;
             return;
         }
-        this.totalHealth = health;
+        this.maxHealth = health;
     }
 
     private void setArmor(int armor) {
@@ -84,7 +85,7 @@ abstract class Entity {
     }
 
     public double getTotalHealth() {
-        return totalHealth;
+        return maxHealth;
     }
 
     public double getCurrentHealth() {
