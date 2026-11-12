@@ -8,7 +8,8 @@ public class Room {
     private boolean hasLeftExit;
     private boolean hasRightExit;
 
-    private boolean hasLoot; // TODO : Fix this boolean to actually contain an item when Items have been made
+    private boolean hasDungeonExit;
+    private boolean hasLoot;
 
     public Room(SecureRandom seed) {
         generateInitialExits(seed);
@@ -58,9 +59,16 @@ public class Room {
         hasLeftExit = !hasLeftExit;
     }
 
-
     private void setHasLoot(SecureRandom seed) {
         this.hasLoot = seed.nextBoolean();
+    }
+
+    public void setHasDungeonExit() {
+        this.hasDungeonExit = true;
+    }
+
+    public boolean hasDungeonExit() {
+        return this.hasDungeonExit;
     }
 
     /**
@@ -105,5 +113,14 @@ public class Room {
 
     public boolean hasLoot() {
         return hasLoot;
+    }
+
+    public int getTotalExits() {
+        int total = 0;
+        if (this.hasTopExit) total++;
+        if (this.hasRightExit) total++;
+        if (this.hasBottomExit) total++;
+        if (this.hasLeftExit) total++;
+        return total;
     }
 }
