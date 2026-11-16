@@ -3,6 +3,7 @@ package domain.dungeons;
 public class DungeonController {
     private final DungeonRepository dungeonRepo;
     private Dungeon currentDungeon;
+    private Room currentRoom;
     private int currentHorizontalPosition;
     private int currentVerticalPosition;
 
@@ -47,6 +48,7 @@ public class DungeonController {
                 currentVerticalPosition--;
             }
         }
+        currentRoom = currentDungeon.getRoom(currentHorizontalPosition, currentVerticalPosition);
     }
 
     public long getDungeonSeed() {

@@ -1,16 +1,14 @@
 package domain.dungeons;
 
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Dungeon {
     public static final String DEFAULT_DUNGEON_NAME = "Unknown dungeon";
-    public static final SecureRandom seed = new SecureRandom();
-    public static final int DEFAULT_DUNGEON_SIZE = 10;
     public static final int MINIMUM_DUNGEON_SIZE = 5;
     public static final int MAXIMUM_DUNGEON_SIZE = 30;
+    public static final int DEFAULT_DUNGEON_SIZE = 10;
     public static final int MINIMUM_EXIT_DISTANCE_FROM_START = 6;
+    public static final SecureRandom seed = new SecureRandom();
 
     private long currentSeed;
     private Room[][] rooms;
@@ -33,7 +31,13 @@ public class Dungeon {
         verticalExitPosition = setVerticalExitDistance(exitDistance);
         createInitialDungeonLayout();
         openPathways();
-        ensurePathToExit();
+        if (!ensuredPathToExit()) {
+            currentSeed++;
+            rooms = new Room[dungeonSize][dungeonSize];
+            generateDungeon();
+            currentSeed--;
+        }
+        resetVisits();
     }
 
     private int decideExitDistanceFromEntrance() {
@@ -98,19 +102,54 @@ public class Dungeon {
         }
     }
 
-    private void ensurePathToExit() { // TODO: work in progress, figuring out best algorithm, not just a simple "down or right"
-        boolean exitReached = false;
-        int currentH = 0;
-        int currentW = 0;
-        List<Room> pathRooms = new ArrayList<>();
-        pathRooms.add(rooms[0][0]);
-        do {
-            int direction = seed.nextInt(0, 4);
+    private boolean ensuredPathToExit() {
+        return ensurePathToExitRecursively(0, 0);
+    }
 
-            if (currentH == horizontalExitPosition && currentW == verticalExitPosition) {
-                exitReached = true;
+    private boolean ensurePathToExitRecursively(int currentRow, int currentCol) {
+        this.rooms[currentRow][currentCol].setVisited(true);
+        if (this.rooms[currentRow][currentCol] == this.rooms[horizontalExitPosition][verticalExitPosition]) {
+            return true;
+        }
+
+        if (currentRow > 0
+                && this.rooms[currentRow][currentCol].hasLeftExit()
+                && !this.rooms[currentRow - 1][currentCol].isVisited()) {
+            if (this.ensurePathToExitRecursively(currentRow - 1, currentCol)) {
+                return true;
             }
-        } while (exitReached);
+        }
+
+        if (currentRow < this.dungeonSize - 1
+                && this.rooms[currentRow][currentCol].hasRightExit()
+                && !this.rooms[currentRow + 1][currentCol].isVisited()) {
+            if (this.ensurePathToExitRecursively(currentRow + 1, currentCol)) {
+                return true;
+            }
+        }
+
+        if (currentCol > 0
+                && this.rooms[currentRow][currentCol].hasTopExit()
+                && !this.rooms[currentRow][currentCol - 1].isVisited()) {
+            if (this.ensurePathToExitRecursively(currentRow, currentCol - 1)) {
+                return true;
+            }
+        }
+
+        if (currentCol < this.dungeonSize - 1
+                && this.rooms[currentRow][currentCol].hasBottomExit()
+                && !this.rooms[currentRow][currentCol + 1].isVisited()) {
+            return this.ensurePathToExitRecursively(currentRow, currentCol + 1);
+        }
+        return false;
+    }
+
+    private void resetVisits() {
+        for (Room[] row : rooms) {
+            for (Room room : row) {
+                room.setVisited(false);
+            }
+        }
     }
 
     /**
@@ -163,5 +202,9 @@ public class Dungeon {
 
     public String getDungeonName() {
         return dungeonName;
+    }
+
+    public Room getRoom(int horizontalPosition, int verticalPosition) {
+        return rooms[horizontalPosition][verticalPosition];
     }
 }

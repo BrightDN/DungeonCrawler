@@ -7,6 +7,7 @@ public class Room {
     private boolean hasBottomExit;
     private boolean hasLeftExit;
     private boolean hasRightExit;
+    private boolean isVisited;
 
     private boolean hasDungeonExit;
     private boolean hasLoot;
@@ -61,6 +62,10 @@ public class Room {
 
     private void setHasLoot(SecureRandom seed) {
         this.hasLoot = seed.nextBoolean();
+    }
+
+    public void setVisited(boolean visited) {
+        this.isVisited = visited;
     }
 
     public void setHasDungeonExit() {
@@ -122,5 +127,9 @@ public class Room {
         if (this.hasBottomExit) total++;
         if (this.hasLeftExit) total++;
         return total;
+    }
+
+    public boolean isVisited() {
+        return isVisited;
     }
 }
