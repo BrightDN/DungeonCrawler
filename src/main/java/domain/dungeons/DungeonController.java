@@ -1,10 +1,12 @@
 package domain.dungeons;
 
+import dto.DungeonDTO;
+
 public class DungeonController {
     private final DungeonRepository dungeonRepo;
     private Dungeon currentDungeon;
     private Room currentRoom;
-    
+
     DungeonController() {
         dungeonRepo = new DungeonRepository();
     }
@@ -47,7 +49,16 @@ public class DungeonController {
 //            }
 //        }
 //        currentRoom = currentDungeon.getRoom(currentHorizontalPosition, currentVerticalPosition);
+    }
 
+    public void enterDungeon(String name) {
+        this.currentDungeon = dungeonRepo.getDungeon(name);
+    }
+
+    public DungeonDTO getCurrentDungeon() {
+        return new DungeonDTO(
+                this.currentDungeon.getDungeonName()
+        );
     }
 
     public long getDungeonSeed() {
