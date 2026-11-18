@@ -120,15 +120,6 @@ public class Room {
         return hasLoot;
     }
 
-    public int getTotalExits() {
-        int total = 0;
-        if (this.hasTopExit) total++;
-        if (this.hasRightExit) total++;
-        if (this.hasBottomExit) total++;
-        if (this.hasLeftExit) total++;
-        return total;
-    }
-
     public boolean isVisited() {
         return isVisited;
     }

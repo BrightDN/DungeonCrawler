@@ -5,9 +5,8 @@ import dto.DungeonDTO;
 public class DungeonController {
     private final DungeonRepository dungeonRepo;
     private Dungeon currentDungeon;
-    private Room currentRoom;
 
-    DungeonController() {
+    public DungeonController() {
         dungeonRepo = new DungeonRepository();
     }
 
@@ -21,7 +20,8 @@ public class DungeonController {
      *
      * @param direction The cardinal direction from {@link Direction} in which to move
      */
-    public void movePlayer(Direction direction) { // TODO: Move to player
+    // TODO: Move to player
+    public void movePlayer(Direction direction) {
 //        switch (direction) {
 //            case NORTH -> {
 //                if (currentHorizontalPosition == 0) {
@@ -53,6 +53,11 @@ public class DungeonController {
 
     public void enterDungeon(String name) {
         this.currentDungeon = dungeonRepo.getDungeon(name);
+        currentDungeon.getRoom(0, 0).setVisited(true);
+    }
+
+    public boolean hasRoomLoot(int hPos, int vPos) {
+        return this.currentDungeon.getRoom(hPos, vPos).hasLoot();
     }
 
     public DungeonDTO getCurrentDungeon() {

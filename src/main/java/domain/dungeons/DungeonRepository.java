@@ -20,10 +20,10 @@ public class DungeonRepository {
         dungeons.add(dungeon);
     }
 
-    public Dungeon getDungeon(String dungeonName) {
-        if (dungeonName == null || dungeonName.isBlank()) throw new IllegalArgumentException("dungeonName is empty");
+    public Dungeon getDungeon(String name) {
+        if (name == null || name.isBlank()) throw new IllegalArgumentException("dungeonName is empty");
         for (Dungeon dungeon : dungeons) {
-            if (Objects.equals(dungeon.getDungeonName(), dungeonName)) return dungeon;
+            if (Objects.equals(dungeon.getDungeonName(), name)) return dungeon;
         }
         return null;
     }

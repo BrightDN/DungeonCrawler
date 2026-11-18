@@ -8,9 +8,8 @@ public class Dungeon {
     public static final int MAXIMUM_DUNGEON_SIZE = 30;
     public static final int DEFAULT_DUNGEON_SIZE = 10;
     public static final int MINIMUM_EXIT_DISTANCE_FROM_START = 6;
-    public static final SecureRandom seed = new SecureRandom();
+    private static final SecureRandom seed = new SecureRandom();
 
-    private long currentSeed;
     private Room[][] rooms;
     private int dungeonSize;
 
@@ -30,9 +29,8 @@ public class Dungeon {
         createInitialDungeonLayout(horizontalExitPosition, verticalExitPosition);
         openPathways();
         if (!ensuredPathToExit()) {
-            currentSeed++;
+            seed.reseed();
             generateDungeon();
-            currentSeed--;
         }
         resetVisits();
     }
@@ -167,7 +165,6 @@ public class Dungeon {
     private void setSeed(long customSeed) {
         if (customSeed == 0) return;
         seed.setSeed(customSeed);
-        currentSeed = customSeed;
     }
 
     /**
@@ -191,10 +188,6 @@ public class Dungeon {
 
     public int getDungeonSize() {
         return this.dungeonSize;
-    }
-
-    public long getSeed() {
-        return currentSeed;
     }
 
     public String getDungeonName() {
