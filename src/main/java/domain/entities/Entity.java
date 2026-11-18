@@ -1,20 +1,24 @@
 package domain.entities;
 
 abstract class Entity {
+    static final String DEFAULT_NAME = "unknown";
     static final int DEFAULT_HEALTH = 100;
     static final int DEFAULT_ARMOR = 10;
     static final int DEFAULT_STRENGTH = 10;
 
+    private String name;
     private int maxHealth;
     private int currentHealth;
     private int armor;
     private int strength;
 
-    public Entity(int health, int armor, int strength) {
+    public Entity(int health, int armor, int strength, String name) {
         setHealth(health);
         setArmor(armor);
-        
+
         setStrength(strength);
+
+        setName(name);
     }
 
     public void resetHealth() {
@@ -84,6 +88,14 @@ abstract class Entity {
         this.strength = strength;
     }
 
+    private void setName(String name) {
+        if (name == null || name.isBlank()) {
+            this.name = DEFAULT_NAME;
+            return;
+        }
+        this.name = name;
+    }
+
     public double getTotalHealth() {
         return maxHealth;
     }
@@ -98,6 +110,10 @@ abstract class Entity {
 
     public int getStrength() {
         return strength;
+    }
+
+    public String getName() {
+        return name;
     }
 }
 
