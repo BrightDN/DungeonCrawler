@@ -13,8 +13,6 @@ public class Dungeon {
     private long currentSeed;
     private Room[][] rooms;
     private int dungeonSize;
-    private int horizontalExitPosition;
-    private int verticalExitPosition;
 
     private String dungeonName;
 
@@ -27,13 +25,12 @@ public class Dungeon {
 
     private void generateDungeon() {
         int exitDistance = decideExitDistanceFromEntrance();
-        horizontalExitPosition = setHorizontalExitDistance(exitDistance);
-        verticalExitPosition = setVerticalExitDistance(exitDistance);
-        createInitialDungeonLayout();
+        int horizontalExitPosition = setHorizontalExitDistance(exitDistance);
+        int verticalExitPosition = setVerticalExitDistance(exitDistance, horizontalExitPosition);
+        createInitialDungeonLayout(horizontalExitPosition, verticalExitPosition);
         openPathways();
         if (!ensuredPathToExit()) {
             currentSeed++;
-            rooms = new Room[dungeonSize][dungeonSize];
             generateDungeon();
             currentSeed--;
         }
@@ -53,11 +50,11 @@ public class Dungeon {
         return seed.nextInt(leftBound, rightBound);
     }
 
-    private int setVerticalExitDistance(int totalDistance) {
-        return Math.max(0, totalDistance - horizontalExitPosition - 1);
+    private int setVerticalExitDistance(int totalDistance, int hExitPos) {
+        return Math.max(0, totalDistance - hExitPos - 1);
     }
 
-    private void createInitialDungeonLayout() {
+    private void createInitialDungeonLayout(int hExitPos, int vExitPos) {
         boolean exitHasBeenSet = false;
         rooms = new Room[dungeonSize][dungeonSize];
         for (int row = 0; row < rooms.length; row++) {
@@ -69,7 +66,7 @@ public class Dungeon {
                 if (row == 0 && cr.hasTopExit()) cr.toggleTopExit();
                 if (row == rooms.length - 1 && cr.hasBottomExit()) cr.toggleBottomExit();
 
-                if (!exitHasBeenSet && row == horizontalExitPosition && col == verticalExitPosition) {
+                if (!exitHasBeenSet && row == hExitPos && col == vExitPos) {
                     exitHasBeenSet = true;
                     cr.setHasDungeonExit();
                 }
@@ -108,7 +105,7 @@ public class Dungeon {
 
     private boolean ensurePathToExitRecursively(int currentRow, int currentCol) {
         this.rooms[currentRow][currentCol].setVisited(true);
-        if (this.rooms[currentRow][currentCol] == this.rooms[horizontalExitPosition][verticalExitPosition]) {
+        if (this.rooms[currentRow][currentCol].hasDungeonExit()) {
             return true;
         }
 
