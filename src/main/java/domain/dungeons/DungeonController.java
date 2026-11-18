@@ -4,9 +4,7 @@ public class DungeonController {
     private final DungeonRepository dungeonRepo;
     private Dungeon currentDungeon;
     private Room currentRoom;
-    private int currentHorizontalPosition;
-    private int currentVerticalPosition;
-
+    
     DungeonController() {
         dungeonRepo = new DungeonRepository();
     }
@@ -21,34 +19,35 @@ public class DungeonController {
      *
      * @param direction The cardinal direction from {@link Direction} in which to move
      */
-    public void movePlayer(Direction direction) {
-        switch (direction) {
-            case NORTH -> {
-                if (currentHorizontalPosition == 0) {
-                    throw new IllegalArgumentException("Illegal move, out of bounds");
-                }
-                currentHorizontalPosition--;
-            }
-            case SOUTH -> {
-                if (currentHorizontalPosition == currentDungeon.getDungeonSize() - 1) {
-                    throw new IllegalArgumentException("Illegal move, out of bounds");
-                }
-                currentHorizontalPosition++;
-            }
-            case EAST -> {
-                if (currentVerticalPosition == currentDungeon.getDungeonSize() - 1) {
-                    throw new IllegalArgumentException("Illegal move, out of bounds");
-                }
-                currentVerticalPosition++;
-            }
-            case WEST -> {
-                if (currentVerticalPosition == 0) {
-                    throw new IllegalArgumentException("Illegal move, out of bounds");
-                }
-                currentVerticalPosition--;
-            }
-        }
-        currentRoom = currentDungeon.getRoom(currentHorizontalPosition, currentVerticalPosition);
+    public void movePlayer(Direction direction) { // TODO: Move to player
+//        switch (direction) {
+//            case NORTH -> {
+//                if (currentHorizontalPosition == 0) {
+//                    throw new IllegalArgumentException("Illegal move, out of bounds");
+//                }
+//                currentHorizontalPosition--;
+//            }
+//            case SOUTH -> {
+//                if (currentHorizontalPosition == currentDungeon.getDungeonSize() - 1) {
+//                    throw new IllegalArgumentException("Illegal move, out of bounds");
+//                }
+//                currentHorizontalPosition++;
+//            }
+//            case EAST -> {
+//                if (currentVerticalPosition == currentDungeon.getDungeonSize() - 1) {
+//                    throw new IllegalArgumentException("Illegal move, out of bounds");
+//                }
+//                currentVerticalPosition++;
+//            }
+//            case WEST -> {
+//                if (currentVerticalPosition == 0) {
+//                    throw new IllegalArgumentException("Illegal move, out of bounds");
+//                }
+//                currentVerticalPosition--;
+//            }
+//        }
+//        currentRoom = currentDungeon.getRoom(currentHorizontalPosition, currentVerticalPosition);
+
     }
 
     public long getDungeonSeed() {
