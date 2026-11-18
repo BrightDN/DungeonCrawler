@@ -1,5 +1,9 @@
 package domain.entities;
 
+import domain.dungeons.Direction;
+import domain.dungeons.Dungeon;
+import domain.dungeons.Room;
+
 public class Player extends Entity {
     public final double DEFAULT_EXP_LEVEL_THRESHOLD = 100;
     public final double DEFAULT_EXP_LEVEL_THRESHOLD_INCREASE = 1.5;
@@ -10,9 +14,12 @@ public class Player extends Entity {
     private double expLevelThreshold = DEFAULT_EXP_LEVEL_THRESHOLD;
     private double expLevelThresholdIncrease = DEFAULT_EXP_LEVEL_THRESHOLD_INCREASE;
 
+    private int xPos;
+    private int yPos;
 
-    public Player(Difficulty difficulty) {
-        super(difficulty.health, difficulty.armor, difficulty.damage);
+
+    public Player(Difficulty difficulty, String name) {
+        super(difficulty.health, difficulty.armor, difficulty.damage, name);
         setExpMultiplier(difficulty.expMultiplier);
     }
 
@@ -33,6 +40,40 @@ public class Player extends Entity {
     private void setExpMultiplier(double expMultiplier) {
         if (expMultiplier <= 0) return;
         this.expMultiplier = expMultiplier;
+    }
+
+    /**
+     * Moves the player in one of the 4 cardinal directions to a new {@link Room}
+     *
+     * @param direction The cardinal direction from {@link Direction} in which to move
+     */
+    public void move(Direction direction, Dungeon dungeon) {
+        switch (direction) {
+            case NORTH -> {
+                if (xPos == 0) {
+                    throw new IllegalArgumentException("Illegal move, out of bounds");
+                }
+                xPos--;
+            }
+            case SOUTH -> {
+                if (xPos == dungeon.getDungeonSize() - 1) {
+                    throw new IllegalArgumentException("Illegal move, out of bounds");
+                }
+                xPos++;
+            }
+            case EAST -> {
+                if (yPos == dungeon.getDungeonSize() - 1) {
+                    throw new IllegalArgumentException("Illegal move, out of bounds");
+                }
+                yPos++;
+            }
+            case WEST -> {
+                if (yPos == 0) {
+                    throw new IllegalArgumentException("Illegal move, out of bounds");
+                }
+                yPos--;
+            }
+        }
     }
 
     public double getExp() {
