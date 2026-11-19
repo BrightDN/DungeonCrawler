@@ -1,7 +1,6 @@
 package domain.entities;
 
 import domain.dungeons.Direction;
-import domain.dungeons.Dungeon;
 import dto.PlayerDTO;
 
 public class EntityController {
@@ -17,12 +16,13 @@ public class EntityController {
         this.player = new Player(difficulty, name);
     }
 
-    public void createEnemy(Difficulty difficulty, String name) {
-        enemyRepository.createEnemy(difficulty, name);
+    public void createEnemy(Difficulty difficulty, String name, Double expYield) {
+        Enemy newEnemy = new Enemy(difficulty, name, expYield);
+        enemyRepository.createEnemy(newEnemy);
     }
 
-    public void movePlayer(Direction direction, Dungeon dungeon) {
-        player.move(direction, dungeon);
+    public void movePlayer(Direction direction, int dungeonSize) {
+        player.move(direction, dungeonSize);
     }
 
     public PlayerDTO getPlayer() {

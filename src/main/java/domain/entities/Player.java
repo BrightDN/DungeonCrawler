@@ -1,14 +1,13 @@
 package domain.entities;
 
 import domain.dungeons.Direction;
-import domain.dungeons.Dungeon;
 import domain.dungeons.Room;
 
 public class Player extends Entity {
     public final double DEFAULT_EXP_LEVEL_THRESHOLD = 100;
     public final double DEFAULT_EXP_LEVEL_THRESHOLD_INCREASE = 1.5;
 
-    private double exp = 0;
+    private double exp;
     private double expMultiplier;
     private int level = 1;
     private double expLevelThreshold = DEFAULT_EXP_LEVEL_THRESHOLD;
@@ -47,7 +46,7 @@ public class Player extends Entity {
      *
      * @param direction The cardinal direction from {@link Direction} in which to move
      */
-    public void move(Direction direction, Dungeon dungeon) {
+    public void move(Direction direction, int dungeonSize) {
         switch (direction) {
             case NORTH -> {
                 if (xPos == 0) {
@@ -56,13 +55,13 @@ public class Player extends Entity {
                 xPos--;
             }
             case SOUTH -> {
-                if (xPos == dungeon.getDungeonSize() - 1) {
+                if (xPos == dungeonSize - 1) {
                     throw new IllegalArgumentException("Illegal move, out of bounds");
                 }
                 xPos++;
             }
             case EAST -> {
-                if (yPos == dungeon.getDungeonSize() - 1) {
+                if (yPos == dungeonSize - 1) {
                     throw new IllegalArgumentException("Illegal move, out of bounds");
                 }
                 yPos++;
@@ -74,6 +73,14 @@ public class Player extends Entity {
                 yPos--;
             }
         }
+    }
+
+    public int getXPos() {
+        return xPos;
+    }
+
+    public int getYPos() {
+        return yPos;
     }
 
     public double getExp() {
