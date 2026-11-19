@@ -29,4 +29,8 @@ public class DungeonController {
                 this.currentDungeon.getDungeonName()
         );
     }
+
+    public int getCurrentDungeonSize() {
+        return this.currentDungeon.getDungeonSize();
+    }
 }
