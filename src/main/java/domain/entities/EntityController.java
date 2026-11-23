@@ -30,4 +30,8 @@ public class EntityController {
                 this.player.getName()
         );
     }
+
+    public Enemy getEnemy(String name) {
+        return enemyRepository.getEnemy(name);
+    }
 }
