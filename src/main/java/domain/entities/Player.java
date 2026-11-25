@@ -1,5 +1,6 @@
 package domain.entities;
 
+import domain.Difficulty;
 import domain.dungeons.Direction;
 import domain.dungeons.Room;
 
@@ -17,8 +18,8 @@ public class Player extends Entity {
     private int yPos;
 
 
-    public Player(Difficulty difficulty, String name) {
-        super(difficulty.health, difficulty.armor, difficulty.damage, name);
+    public Player(Difficulty difficulty, String name, int health) {
+        super(health, difficulty.armor, difficulty.damage, name);
         setExpMultiplier(difficulty.expMultiplier);
     }
 

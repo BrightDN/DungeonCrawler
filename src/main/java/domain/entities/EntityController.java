@@ -1,5 +1,6 @@
 package domain.entities;
 
+import domain.Difficulty;
 import domain.dungeons.Direction;
 import dto.PlayerDTO;
 
@@ -11,13 +12,13 @@ public class EntityController {
         this.enemyRepository = new EnemyRepository();
     }
 
-    public void createPlayer(Difficulty difficulty, String name) {
+    public void createPlayer(Difficulty difficulty, String name, int health) {
         if (player != null) throw new IllegalArgumentException("A player already exists");
-        this.player = new Player(difficulty, name);
+        this.player = new Player(difficulty, name, health);
     }
 
-    public void createEnemy(Difficulty difficulty, String name, Double expYield) {
-        Enemy newEnemy = new Enemy(difficulty, name, expYield);
+    public void createEnemy(Difficulty difficulty, String name, Double expYield, int health) {
+        Enemy newEnemy = new Enemy(difficulty, name, expYield, health);
         enemyRepository.createEnemy(newEnemy);
     }
 

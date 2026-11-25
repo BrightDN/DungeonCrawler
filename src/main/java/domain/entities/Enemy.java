@@ -1,10 +1,12 @@
 package domain.entities;
 
+import domain.Difficulty;
+
 public class Enemy extends Entity {
     private double expYield;
 
-    public Enemy(Difficulty difficulty, String name, double expYield) {
-        super(difficulty.health, difficulty.armor, difficulty.damage, name);
+    public Enemy(Difficulty difficulty, String name, double expYield, int health) {
+        super(health, difficulty.armor, difficulty.damage, name);
         setExpYield(expYield);
     }
 

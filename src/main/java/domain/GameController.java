@@ -2,22 +2,20 @@ package domain;
 
 import domain.dungeons.Direction;
 import domain.dungeons.DungeonController;
-import domain.entities.Difficulty;
 import domain.entities.EntityController;
 
 public class GameController {
-    private final Difficulty DEFAULT_DIFFICULTY = Difficulty.MEDIUM;
     private boolean gameRunning;
     private final DungeonController dc;
     private final EntityController ec;
+    private final DifficultySettings ds;
     // TODO : Add remaining controllers to the GameController
     //  -> CUI | GUI will only communicate with the GameController
-
-    private Difficulty difficulty = DEFAULT_DIFFICULTY;
 
     public GameController() {
         this.dc = new DungeonController();
         this.ec = new EntityController();
+        this.ds = new DifficultySettings();
     }
 
     public void movePlayer(Direction direction) {
@@ -25,11 +23,11 @@ public class GameController {
     }
 
     public void createPlayer(String name) {
-        ec.createPlayer(difficulty, name);
+        ec.createPlayer(Difficulty.MEDIUM, name, ds.getPlayerInitialHealth());
     }
 
-    public void createEnemy(String name, Double expYield) {
-        ec.createEnemy(difficulty, name, expYield);
+    public void createEnemy(String name, Double expYield, int health) {
+        ec.createEnemy(Difficulty.MEDIUM, name, expYield, health);
     }
 
     public void startGame() {
@@ -40,5 +38,11 @@ public class GameController {
         return gameRunning;
     }
 
+    public String getDifficulty() {
+        return ds.getDifficulty();
+    }
 
+    public void setDifficulty(String difficulty) {
+        ds.setDifficulty(difficulty);
+    }
 }

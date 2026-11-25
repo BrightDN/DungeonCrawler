@@ -17,20 +17,29 @@ public class DungeonCrawlerApplication {
     }
 
     private void showStartMenu() {
-        System.out.print("Welcome to Dungeon Crawler\n\n\n\n");
-        String chosenOption = chooseOption("", "start", "change difficulty", "exit");
-        processChosenStartOption(chosenOption);
+        while (true) {
+            System.out.println("Welcome to Dungeon Crawler");
+            String chosenOption = chooseOption("Type in your choice", "start", "change difficulty", "exit");
+            processChosenStartOption(chosenOption);
+        }
     }
 
     private void processChosenStartOption(String chosenOption) {
         switch (chosenOption.toLowerCase()) {
-            case "start" -> gc.startGame();
+            case "start" -> startGame();
             case "change difficulty" -> showDifficultyMenu();
             case "exit" -> exitApplication();
+            default -> System.out.println("Something went wrong, please reboot the application");
         }
     }
 
+    private void startGame() {
+        gc.startGame();
+        gc.createPlayer(askName());
+    }
+
     private void showDifficultyMenu() {
+        System.out.printf("The current difficulty is: %s%n", gc.getDifficulty());
     }
 
     private void exitApplication() {
@@ -49,10 +58,14 @@ public class DungeonCrawlerApplication {
                 System.out.println(preText);
             }
             for (String option : options) {
-                System.out.println("option");
+                System.out.println(option);
             }
+            System.out.print("Your choice: ");
             choice = in.nextLine();
-            if (choice == null || choice.isBlank()) continue;
+            if (choice == null || choice.isBlank()) {
+                System.out.println("Cannot process an empty option, please try again.");
+                continue;
+            }
 
             for (String option : options) {
                 if (option == null || option.isBlank()) continue;
@@ -61,8 +74,21 @@ public class DungeonCrawlerApplication {
                     break;
                 }
             }
+
+            if (!validChoice) System.out.println("Invalid or unknown choice, please try again");
         } while (!validChoice);
 
         return choice;
+    }
+
+    private String askName() {
+        String name;
+        while (true) {
+            System.out.print("What's your name? > ");
+            name = in.nextLine();
+            if (name != null && !name.isBlank()) break;
+            System.out.println("The given name is invalid, try again.");
+        }
+        return name;
     }
 }
