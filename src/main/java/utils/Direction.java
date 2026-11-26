@@ -1,4 +1,4 @@
-package domain.dungeons;
+package utils;
 
 public enum Direction {
     NORTH,
